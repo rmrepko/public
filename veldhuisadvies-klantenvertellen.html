@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div id='showReview'></div><br>
+
+<script>
+var i = 0;
+var w;
+var x;
+
+displayReview(i);
+
+function displayReview(i) {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            myFunction(this, i);
+        }
+    };
+    xmlhttp.open("GET", "https://www.klantenvertellen.nl/v1/review/feed.xml?hash=xykhgpkgwuynlal", true);
+    xmlhttp.send();
+}
+
+
+function myFunction(xml, i) {
+    var xmlDoc2 = xml.responseXML; 
+    w = xmlDoc2.getElementsByTagName("ReviewFeedDto");
+    x = xmlDoc2.getElementsByTagName("reviews");
+    z = xmlDoc2.getElementsByTagName("reviewContent");
+    document.getElementById("showReview").innerHTML =
+   w[i].getElementsByTagName("averageRating")[0].childNodes[0].nodeValue +
+    " op basis van " +
+    w[i].getElementsByTagName("numberReviews")[0].childNodes[0].nodeValue +
+    " beoordelingen<br><br><u>" +
+    x[i].getElementsByTagName("reviewAuthor")[0].childNodes[0].nodeValue +
+    " uit " +
+    x[i].getElementsByTagName("city")[0].childNodes[0].nodeValue +
+    ": " + 
+    x[i].getElementsByTagName("rating")[0].childNodes[0].nodeValue +
+    "</u><br><strong>" +
+    z[i].getElementsByTagName("rating")[1].childNodes[0].nodeValue+
+    "</strong><br>" +
+    z[i].getElementsByTagName("rating")[2].childNodes[0].nodeValue;
+
+}
+
+</script>
+
+</body>
+</html>
+<p style="font-style:italic;">Lees meer op <a href="https://www.veldhuisadvies.nl/referenties" target="_blank">www.veldhuisadvies.nl/referenties</a></p>
